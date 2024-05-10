@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:test_drive/const/colors.dart';
+import 'package:test_drive/data/auth_data.dart';
 
 class SignUP_Screen extends StatefulWidget {
   final VoidCallback show;
-   const SignUP_Screen(this.show,{super.key});
+  const SignUP_Screen(this.show, {super.key});
 
   @override
   State<SignUP_Screen> createState() => _SignUP_ScreenState();
@@ -58,7 +59,8 @@ class _SignUP_ScreenState extends State<SignUP_Screen> {
               const SizedBox(height: 10),
               textfield(namaLengkap, _focusNode3, 'Nama Lengkap', Icons.person),
               const SizedBox(height: 10),
-              textfield(nomorHandphone, _focusNode4, 'Nomor Handphone', Icons.phone_android),
+              textfield(nomorHandphone, _focusNode4, 'Nomor Handphone',
+                  Icons.phone_android),
               const SizedBox(height: 8),
               account(),
               const SizedBox(height: 20),
@@ -99,20 +101,26 @@ class _SignUP_ScreenState extends State<SignUP_Screen> {
   Widget SignUP_bottom() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Container(
-        alignment: Alignment.center,
-        width: double.infinity,
-        height: 50,
-        decoration: BoxDecoration(
-          color: custom_green,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: const Text(
-          'Sign UP',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 23,
-            fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: () {
+          AuthenticationRemote().register(
+              email.text, password.text, namaLengkap.text, nomorHandphone.text);
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 50,
+          decoration: BoxDecoration(
+            color: custom_green,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Text(
+            'Sign UP',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 23,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -135,11 +143,13 @@ class _SignUP_ScreenState extends State<SignUP_Screen> {
           decoration: InputDecoration(
               prefixIcon: Icon(
                 iconss,
-                color: _focusNode.hasFocus ? custom_green : const Color(0xffc5c5c5),
+                color: _focusNode.hasFocus
+                    ? custom_green
+                    : const Color(0xffc5c5c5),
               ),
               contentPadding:
-              const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              hintText: 'typeName',
+                  const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              hintText: typeName,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(

@@ -10,19 +10,20 @@ abstract class AuthenticationDatasource {
 class AuthenticationRemote extends AuthenticationDatasource {
   @override
   Future<void> login(String email, String password) async {
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email.trim(), password: password.trim());
   }
 
   @override
   Future<void> register(String email, String password, String namaLengkap,
       String nomorHandphone) async {
     UserCredential userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email, password: password);
+        .createUserWithEmailAndPassword(
+            email: email.trim(), password: password.trim());
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     users.doc(userCredential.user?.uid).set({
-      'namaLengkap': namaLengkap,
-      'nomorHandphone': nomorHandphone,
+      'namaLengkap': namaLengkap.trim(),
+      'nomorHandphone': nomorHandphone.trim(),
     });
   }
 }
