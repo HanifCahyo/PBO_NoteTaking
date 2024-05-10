@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:test_drive/const/colors.dart';
+import 'package:test_drive/screen/add_note_screen.dart';
 import 'package:test_drive/widgets/task_widgets.dart';
 
 class Home_Screen extends StatefulWidget {
@@ -20,7 +21,11 @@ class _Home_ScreenState extends State<Home_Screen> {
       floatingActionButton: Visibility(
         visible: show,
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => Add_Note_Screen()),
+            );
+          },
           backgroundColor: custom_green,
           child: const Icon(
             Icons.add,
