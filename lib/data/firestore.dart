@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:test_drive/model/notes_model.dart';
 import 'package:uuid/uuid.dart';
 
 class Firestore_Datasource {
@@ -43,6 +45,19 @@ class Firestore_Datasource {
       return true;
     } catch (e) {
       return true;
+    }
+  }
+
+  List getNotes(AsyncSnapshot snapshot) {
+    try {
+      final notesList = snapshot.data.docs.map((doc) {
+        final data = doc.data as Map<String, dynamic>;
+        return Note(data["id"], data["subtitle"], data["title"], data["time"],
+            data['image']);
+      }).toList();
+      return notesList;
+    } catch (e) {
+      return [];
     }
   }
 }
