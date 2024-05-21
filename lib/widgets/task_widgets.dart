@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:test_drive/const/colors.dart';
+import 'package:test_drive/model/notes_model.dart';
 import 'package:test_drive/screen/edit_screen.dart';
+import 'package:intl/intl.dart';
 
 class Task_Widget extends StatefulWidget {
-  const Task_Widget({super.key});
+  Note _note;
+  Task_Widget(this._note, {super.key});
 
   @override
   State<Task_Widget> createState() => _Task_WidgetState();
@@ -50,9 +52,9 @@ class _Task_WidgetState extends State<Task_Widget> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'title',
-                          style: TextStyle(
+                        Text(
+                          widget._note.title,
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -68,7 +70,7 @@ class _Task_WidgetState extends State<Task_Widget> {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      'subtitle',
+                      widget._note.subtitle,
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w400,
@@ -87,6 +89,7 @@ class _Task_WidgetState extends State<Task_Widget> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget edit_time() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -109,9 +112,9 @@ class _Task_WidgetState extends State<Task_Widget> {
                   const SizedBox(
                     width: 10,
                   ),
-                  const Text(
-                    'time',
-                    style: TextStyle(
+                  Text(
+                    widget._note.time,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -167,10 +170,10 @@ class _Task_WidgetState extends State<Task_Widget> {
     return Container(
       height: 130,
       width: 100,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
         image: DecorationImage(
-          image: AssetImage("images/0.png"),
+          image: AssetImage("images/${widget._note.image}.png"),
           fit: BoxFit.cover,
         ),
       ),

@@ -40,7 +40,7 @@ class Firestore_Datasource {
         'isDone': false,
         'image': image,
         'title': title,
-        'time': data,
+        'time': '${data.hour}:${data.minute}',
       });
       return true;
     } catch (e) {
@@ -51,13 +51,27 @@ class Firestore_Datasource {
   List getNotes(AsyncSnapshot snapshot) {
     try {
       final notesList = snapshot.data.docs.map((doc) {
-        final data = doc.data as Map<String, dynamic>;
-        return Note(data["id"], data["subtitle"], data["title"], data["time"],
-            data['image']);
+        final data = doc.data() as Map<String, dynamic>;
+        return Note(
+          data['id'],
+          data['subtitle'],
+          data['time'],
+          data['image'],
+          data['title'],
+        );
       }).toList();
       return notesList;
     } catch (e) {
+      print(e);
       return [];
     }
+  }
+
+  Stream<QuerySnapshot> stream() {
+    return _firestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection('notes')
+        .snapshots();
   }
 }
