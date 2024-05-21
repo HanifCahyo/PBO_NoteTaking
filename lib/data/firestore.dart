@@ -58,6 +58,7 @@ class Firestore_Datasource {
           data['time'],
           data['image'],
           data['title'],
+          data['isDone'],
         );
       }).toList();
       return notesList;
@@ -73,5 +74,22 @@ class Firestore_Datasource {
         .doc(_auth.currentUser!.uid)
         .collection('notes')
         .snapshots();
+  }
+
+  Future<bool> isDone(String uuid, bool isDone) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection('notes')
+          .doc(uuid)
+          .update({
+        'isDone': isDone,
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 }
