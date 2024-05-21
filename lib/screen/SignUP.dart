@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, camel_case_types, non_constant_identifier_names, no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/material.dart';
 import 'package:test_drive/const/colors.dart';
 import 'package:test_drive/data/auth_data.dart';
@@ -23,7 +25,6 @@ class _SignUP_ScreenState extends State<SignUP_Screen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _focusNode1.addListener(() {
       setState(() {});

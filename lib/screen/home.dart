@@ -1,12 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:test_drive/const/colors.dart';
-import 'package:test_drive/data/firestore.dart';
 import 'package:test_drive/screen/add_note_screen.dart';
 import 'package:test_drive/widgets/stream_notes.dart';
-import 'package:test_drive/widgets/task_widgets.dart';
 
+// ignore: camel_case_types
 class Home_Screen extends StatefulWidget {
   const Home_Screen({super.key});
 
@@ -16,6 +14,7 @@ class Home_Screen extends StatefulWidget {
 
 bool show = true;
 
+// ignore: camel_case_types
 class _Home_ScreenState extends State<Home_Screen> {
   @override
   Widget build(BuildContext context) {
@@ -26,6 +25,7 @@ class _Home_ScreenState extends State<Home_Screen> {
         child: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).push(
+              // ignore: prefer_const_constructors
               MaterialPageRoute(builder: (context) => Add_Note_Screen()),
             );
           },

@@ -1,9 +1,10 @@
+// ignore_for_file: camel_case_types, must_be_immutable, prefer_final_fields, prefer_const_constructors, duplicate_ignore, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:test_drive/const/colors.dart';
 import 'package:test_drive/data/firestore.dart';
 import 'package:test_drive/model/notes_model.dart';
 import 'package:test_drive/screen/edit_screen.dart';
-import 'package:intl/intl.dart';
 
 class Task_Widget extends StatefulWidget {
   Note _note;

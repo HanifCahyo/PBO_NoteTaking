@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:test_drive/screen/SignUP.dart';
 import 'package:test_drive/screen/login.dart';
@@ -10,17 +12,18 @@ class Auth_Page extends StatefulWidget {
 }
 
 class _Auth_PageState extends State<Auth_Page> {
-  bool a=true ;
-  void to(){
+  bool a = true;
+  void to() {
     setState(() {
-      a=!a;
+      a = !a;
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    if(a){
+    if (a) {
       return LogIN_Screen(to);
-    }else{
+    } else {
       return SignUP_Screen(to);
     }
   }

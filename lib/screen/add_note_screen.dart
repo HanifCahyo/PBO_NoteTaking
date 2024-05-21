@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, non_constant_identifier_names, prefer_const_constructors, sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 import 'package:test_drive/const/colors.dart';
 import 'package:test_drive/data/firestore.dart';
@@ -74,7 +76,6 @@ class _Add_Note_ScreenState extends State<Add_Note_Screen> {
         itemCount: 6,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          // ignore: sized_box_for_whitespace
           return GestureDetector(
             onTap: () {
               setState(() {
@@ -92,7 +93,7 @@ class _Add_Note_ScreenState extends State<Add_Note_Screen> {
               margin: EdgeInsets.all(8),
               child: Column(
                 children: [
-                  Image.asset('images/${index}.png'),
+                  Image.asset('images/$index.png'),
                 ],
               ),
             ),

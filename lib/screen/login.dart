@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types, no_leading_underscores_for_local_identifiers, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:test_drive/const/colors.dart';
 import 'package:test_drive/data/auth_data.dart';
@@ -19,7 +21,6 @@ class _LogIN_ScreenState extends State<LogIN_Screen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _focusNode1.addListener(() {
       setState(() {});

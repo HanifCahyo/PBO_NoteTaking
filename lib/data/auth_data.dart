@@ -19,10 +19,6 @@ class AuthenticationRemote extends AuthenticationDatasource {
   Future<void> register(String email, String password, String namaLengkap,
       String nomorHandphone) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: email.trim(), password: password.trim());
-
       // Ensure that createUser is awaited
       bool userCreated = await _firestoreDatasource.createUser(
         email,

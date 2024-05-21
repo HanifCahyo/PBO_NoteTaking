@@ -1,11 +1,13 @@
+// ignore_for_file: camel_case_types, non_constant_identifier_names, annotate_overrides, prefer_const_constructors, sized_box_for_whitespace, duplicate_ignore
+
 import 'package:flutter/material.dart';
 import 'package:test_drive/const/colors.dart';
 import 'package:test_drive/data/firestore.dart';
 import 'package:test_drive/model/notes_model.dart';
 
 class Edit_Screen extends StatefulWidget {
-  Note _note;
-  Edit_Screen(this._note, {super.key});
+  final Note _note;
+  const Edit_Screen(this._note, {super.key});
 
   @override
   State<Edit_Screen> createState() => _Edit_ScreenState();
@@ -21,7 +23,6 @@ class _Edit_ScreenState extends State<Edit_Screen> {
   int indexx = 0;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     title = TextEditingController(text: widget._note.title);
     subtitle = TextEditingController(text: widget._note.subtitle);
@@ -102,7 +103,7 @@ class _Edit_ScreenState extends State<Edit_Screen> {
               margin: EdgeInsets.all(8),
               child: Column(
                 children: [
-                  Image.asset('images/${index}.png'),
+                  Image.asset('images/$index.png'),
                 ],
               ),
             ),

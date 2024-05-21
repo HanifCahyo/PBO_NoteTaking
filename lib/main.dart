@@ -1,8 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:test_drive/auth/auth_page.dart';
-import 'package:test_drive/screen/add_note_screen.dart';
-import 'package:test_drive/screen/home.dart';
-import 'package:test_drive/widgets/task_widgets.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:test_drive/auth/main_page.dart';
