@@ -92,4 +92,26 @@ class Firestore_Datasource {
       return false;
     }
   }
+
+  Future<bool> Update_Note(
+      String uuid, int image, String title, String subtitle) async {
+    try {
+      DateTime data = DateTime.now();
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection('notes')
+          .doc(uuid)
+          .update({
+        'time': '${data.hour}:${data.minute}',
+        'subtitle': subtitle,
+        'image': image,
+        'title': title,
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
 }

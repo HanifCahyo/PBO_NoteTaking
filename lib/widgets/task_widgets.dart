@@ -130,7 +130,7 @@ class _Task_WidgetState extends State<Task_Widget> {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Edit_Screen(),
+                builder: (context) => Edit_Screen(widget._note),
               ));
             },
             child: Container(
