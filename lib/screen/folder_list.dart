@@ -1,22 +1,22 @@
-// ignore_for_file: prefer_const_constructors, camel_case_types
+// ignore_for_file: camel_case_types, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:test_drive/const/colors.dart';
-import 'package:test_drive/screen/add_folder.dart';
-import 'package:test_drive/screen/add_note_screen.dart';
-import 'package:test_drive/widgets/folder_notes.dart';
-import 'package:test_drive/widgets/stream_notes.dart';
+import 'package:test_drive/screen/add_note_screen_insides_folder.dart';
+import 'package:test_drive/screen/home.dart';
+import 'package:test_drive/widgets/stream_note_insides_folder.dart';
 
-class Home_Screen extends StatefulWidget {
-  const Home_Screen({super.key});
+class Folder_Screen_List extends StatefulWidget {
+  final String folderId;
+  const Folder_Screen_List(this.folderId, {super.key});
 
   @override
-  State<Home_Screen> createState() => _Home_ScreenState();
+  State<Folder_Screen_List> createState() => _Folder_Screen_ListState();
 }
 
-class _Home_ScreenState extends State<Home_Screen> {
+class _Folder_Screen_ListState extends State<Folder_Screen_List> {
   bool show = true;
 
   @override
@@ -31,11 +31,11 @@ class _Home_ScreenState extends State<Home_Screen> {
           backgroundColor: custom_green,
           children: [
             SpeedDialChild(
-              child: Icon(Icons.create_new_folder),
-              label: 'Add Folder',
+              child: Icon(Icons.back_hand),
+              label: 'Back',
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => Add_Folder_Screen()),
+                  MaterialPageRoute(builder: (context) => Home_Screen()),
                 );
               },
             ),
@@ -44,7 +44,9 @@ class _Home_ScreenState extends State<Home_Screen> {
               label: 'Add Note',
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => Add_Note_Screen()),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          Add_Note_Screen_Insides_Folder(widget.folderId)),
                 );
               },
             ),
@@ -69,8 +71,8 @@ class _Home_ScreenState extends State<Home_Screen> {
           child: ListView(
             padding: const EdgeInsets.all(10),
             children: [
-              Stream_note(false),
-              folder_note(),
+              Stream_note_insides_folder(widget.folderId, false),
+              // folder_note(),
               Text(
                 'isDone',
                 style: TextStyle(
@@ -79,7 +81,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Stream_note(true),
+              Stream_note_insides_folder(widget.folderId, true),
             ],
           ),
         ),
