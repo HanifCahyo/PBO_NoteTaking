@@ -15,11 +15,15 @@ class Firestore_Datasource {
   Future<bool> createUser(
       String email, String namaLengkap, String nomorHandphone) async {
     try {
+      print('Data yang akan disimpan di Firestore:');
+      print('Email: $email');
+      print('Nama Lengkap: $namaLengkap');
+      print('Nomor Handphone: $nomorHandphone');
       await _firestore.collection('users').doc(_auth.currentUser!.uid).set({
         'id': _auth.currentUser!.uid,
         'email': email,
-        'namaLengkap': namaLengkap.trim(),
-        'nomorHandphone': nomorHandphone.trim(),
+        'namaLengkap': namaLengkap,
+        'nomorHandphone': nomorHandphone,
       });
       return true;
     } catch (e) {

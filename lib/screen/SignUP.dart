@@ -18,10 +18,10 @@ class _SignUP_ScreenState extends State<SignUP_Screen> {
   final FocusNode _focusNode3 = FocusNode();
   final FocusNode _focusNode4 = FocusNode();
 
-  final email = TextEditingController();
-  final password = TextEditingController();
-  final namaLengkap = TextEditingController();
-  final nomorHandphone = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController namaLengkap = TextEditingController();
+  final TextEditingController nomorHandphone = TextEditingController();
 
   @override
   void initState() {
