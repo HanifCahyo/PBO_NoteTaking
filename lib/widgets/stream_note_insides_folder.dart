@@ -27,7 +27,9 @@ class Stream_note_insides_folder extends StatelessWidget {
               final note = noteslist2[index];
               return Dismissible(
                   key: UniqueKey(),
-                  onDismissed: (direction) {},
+                  onDismissed: (direction) {
+                    Firestore_Datasource().Delete_Note_Inside_Folder(note.id);
+                  },
                   child: Task_Widget_insides_folder(note));
             },
             itemCount: noteslist2.length,

@@ -49,7 +49,7 @@ class _Task_WidgetState extends State<Task_Widget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -71,14 +71,14 @@ class _Task_WidgetState extends State<Task_Widget> {
                             })
                       ],
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      widget._note.subtitle,
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey.shade400),
-                    ),
+                    // const SizedBox(height: 5),
+                    // Text(
+                    //   widget._note.subtitle,
+                    //   style: TextStyle(
+                    //       fontSize: 18,
+                    //       fontWeight: FontWeight.w400,
+                    //       color: Colors.grey.shade400),
+                    // ),
                     // ignore: prefer_const_constructors
                     Spacer(),
                     edit_time()
@@ -99,7 +99,7 @@ class _Task_WidgetState extends State<Task_Widget> {
       child: Row(
         children: [
           Container(
-            width: 90,
+            width: 100,
             height: 28,
             decoration: BoxDecoration(
               color: custom_green,

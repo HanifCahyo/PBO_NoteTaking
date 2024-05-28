@@ -52,32 +52,6 @@ class Firestore_Datasource {
     }
   }
 
-  Future<bool> AddNoteToFolder(
-      String folderId, String subtitle, String title, int image) async {
-    try {
-      var uuid = const Uuid().v4();
-      DateTime data = DateTime.now();
-      await _firestore
-          .collection('users')
-          .doc(_auth.currentUser!.uid)
-          .collection('notesFolder')
-          .doc(uuid)
-          .set({
-        'id': uuid,
-        'folderIdNote': folderId,
-        'subtitle': subtitle,
-        'isDone': false,
-        'image': image,
-        'title': title,
-        'time': '${data.hour}:${data.minute}',
-      });
-      return true;
-    } catch (e) {
-      print('Error adding note to folder: $e');
-      return false;
-    }
-  }
-
   // Delete Folder //
 
   Future<bool> DeleteFolder(String uuid) async {
@@ -116,27 +90,6 @@ class Firestore_Datasource {
     }
   }
 
-  List getNotesInsideFolder(AsyncSnapshot snapshot) {
-    try {
-      final notesList2 = snapshot.data.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        return NoteInsideFolder(
-          data['id'],
-          data['folderIdNote'],
-          data['subtitle'],
-          data['time'],
-          data['image'],
-          data['title'],
-          data['isDone'],
-        );
-      }).toList();
-      return notesList2;
-    } catch (e) {
-      print('Error adding note to folder: $e');
-      return [];
-    }
-  }
-
   // Stream Notes //
 
   Stream<QuerySnapshot> stream(bool isDone) {
@@ -144,16 +97,6 @@ class Firestore_Datasource {
         .collection('users')
         .doc(_auth.currentUser!.uid)
         .collection('notes')
-        .where('isDone', isEqualTo: isDone)
-        .snapshots();
-  }
-
-  Stream<QuerySnapshot> streamNotesInsideFolder(String folderId, bool isDone) {
-    return _firestore
-        .collection('users')
-        .doc(_auth.currentUser!.uid)
-        .collection('notesFolder')
-        .where('folderIdNote', isEqualTo: folderId)
         .where('isDone', isEqualTo: isDone)
         .snapshots();
   }
@@ -173,23 +116,6 @@ class Firestore_Datasource {
           .collection('users')
           .doc(_auth.currentUser!.uid)
           .collection('notes')
-          .doc(uuid)
-          .update({
-        'isDone': isDone,
-      });
-      return true;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
-
-  Future<bool> isDoneInsideFolder(String uuid, bool isDone) async {
-    try {
-      await _firestore
-          .collection('users')
-          .doc(_auth.currentUser!.uid)
-          .collection('notesFolder')
           .doc(uuid)
           .update({
         'isDone': isDone,
@@ -223,49 +149,12 @@ class Firestore_Datasource {
     }
   }
 
-  Future<bool> Update_Note_Inside_Folder(
-      String uuid, int image, String title, String subtitle) async {
-    try {
-      DateTime data = DateTime.now();
-      await _firestore
-          .collection('users')
-          .doc(_auth.currentUser!.uid)
-          .collection('notesFolder')
-          .doc(uuid)
-          .update({
-        'time': '${data.hour}:${data.minute}',
-        'subtitle': subtitle,
-        'image': image,
-        'title': title,
-      });
-      return true;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
-
   Future<bool> Delete_Note(String uuid) async {
     try {
       await _firestore
           .collection('users')
           .doc(_auth.currentUser!.uid)
           .collection('notes')
-          .doc(uuid)
-          .delete();
-      return true;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
-
-  Future<bool> Delete_Note_Inside_Folder(String uuid) async {
-    try {
-      await _firestore
-          .collection('users')
-          .doc(_auth.currentUser!.uid)
-          .collection('notesFolder')
           .doc(uuid)
           .delete();
       return true;
@@ -304,5 +193,116 @@ class Firestore_Datasource {
       print(e);
       return [];
     }
+  }
+
+  Future<bool> AddNoteToFolder(
+      String folderId, String subtitle, String title, int image) async {
+    try {
+      var uuid = const Uuid().v4();
+      DateTime data = DateTime.now();
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection('notesFolder')
+          .doc(uuid)
+          .set({
+        'id': uuid,
+        'folderIdNote': folderId,
+        'subtitle': subtitle,
+        'isDone': false,
+        'image': image,
+        'title': title,
+        'time': '${data.hour}:${data.minute}',
+      });
+      return true;
+    } catch (e) {
+      print('Error adding note to folder: $e');
+      return false;
+    }
+  }
+
+  Future<bool> Delete_Note_Inside_Folder(String uuid) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection('notesFolder')
+          .doc(uuid)
+          .delete();
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> Update_Note_Inside_Folder(
+      String uuid, int image, String title, String subtitle) async {
+    try {
+      DateTime data = DateTime.now();
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection('notesFolder')
+          .doc(uuid)
+          .update({
+        'time': '${data.hour}:${data.minute}',
+        'subtitle': subtitle,
+        'image': image,
+        'title': title,
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> isDoneInsideFolder(String uuid, bool isDone) async {
+    try {
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection('notesFolder')
+          .doc(uuid)
+          .update({
+        'isDone': isDone,
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  List getNotesInsideFolder(AsyncSnapshot snapshot) {
+    try {
+      final notesList2 = snapshot.data.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return NoteInsideFolder(
+          data['id'],
+          data['folderIdNote'],
+          data['subtitle'],
+          data['time'],
+          data['image'],
+          data['title'],
+          data['isDone'],
+        );
+      }).toList();
+      return notesList2;
+    } catch (e) {
+      print('Error adding note to folder: $e');
+      return [];
+    }
+  }
+
+  Stream<QuerySnapshot> streamNotesInsideFolder(String folderId, bool isDone) {
+    return _firestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection('notesFolder')
+        .where('folderIdNote', isEqualTo: folderId)
+        .where('isDone', isEqualTo: isDone)
+        .snapshots();
   }
 }

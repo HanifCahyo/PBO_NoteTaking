@@ -1,9 +1,11 @@
-// ignore_for_file: camel_case_types, non_constant_identifier_names, annotate_overrides, prefer_const_constructors, sized_box_for_whitespace, duplicate_ignore
+// ignore_for_file: camel_case_types, non_constant_identifier_names, annotate_overrides, prefer_const_constructors, sized_box_for_whitespace, duplicate_ignore, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:test_drive/const/colors.dart';
 import 'package:test_drive/data/firestore.dart';
 import 'package:test_drive/model/notes_model.dart';
+
+import 'package:html_editor_enhanced/html_editor.dart';
 
 class Edit_Screen extends StatefulWidget {
   final Note _note;
@@ -15,17 +17,19 @@ class Edit_Screen extends StatefulWidget {
 
 class _Edit_ScreenState extends State<Edit_Screen> {
   TextEditingController? title;
-  TextEditingController? subtitle;
+  // TextEditingController? subtitle;
+  HtmlEditorController subtitleController = HtmlEditorController();
 
   final FocusNode _focusNode1 = FocusNode();
-  final FocusNode _focusNode2 = FocusNode();
+  // final FocusNode _focusNode2 = FocusNode();
 
   int indexx = 0;
   @override
   void initState() {
     super.initState();
     title = TextEditingController(text: widget._note.title);
-    subtitle = TextEditingController(text: widget._note.subtitle);
+    // subtitle = TextEditingController(text: widget._note.subtitle);
+    subtitleController.setText(widget._note.subtitle);
   }
 
   Widget build(BuildContext context) {
@@ -57,12 +61,13 @@ class _Edit_ScreenState extends State<Edit_Screen> {
             backgroundColor: custom_green,
             minimumSize: Size(170, 48),
           ),
-          onPressed: () {
+          onPressed: () async {
+            String subtitleHtml = await subtitleController.getText();
             Firestore_Datasource().Update_Note(
-                widget._note.id, indexx, title!.text, subtitle!.text);
+                widget._note.id, indexx, title!.text, subtitleHtml);
             Navigator.pop(context);
           },
-          child: Text('add task'),
+          child: Text('Save changes'),
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -121,29 +126,14 @@ class _Edit_ScreenState extends State<Edit_Screen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
         ),
-        child: TextField(
-          maxLines: 3,
-          controller: subtitle,
-          focusNode: _focusNode2,
-          style: const TextStyle(fontSize: 18, color: Colors.black),
-          decoration: InputDecoration(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            hintText: "subtitle",
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(
-                color: Color(0xffc5c5c5),
-                width: 2.0,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                color: custom_green,
-                width: 2.0,
-              ),
-            ),
+        child: HtmlEditor(
+          controller: subtitleController,
+          htmlEditorOptions: HtmlEditorOptions(
+            hint: "Enter your subtitle here...",
+            initialText: widget._note.subtitle,
+          ),
+          otherOptions: OtherOptions(
+            height: 200,
           ),
         ),
       ),
