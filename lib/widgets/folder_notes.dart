@@ -25,7 +25,7 @@ class folder_note extends StatelessWidget {
               return Dismissible(
                   key: UniqueKey(),
                   onDismissed: (direction) {
-                    Firestore_Datasource().DeleteFolder(folder.id);
+                    Firestore_Datasource().DeleteFolder(folder.folderId);
                   },
                   child: Folder_Widget(folder));
             },

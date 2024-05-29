@@ -1,10 +1,13 @@
 // ignore_for_file: camel_case_types, non_constant_identifier_names, prefer_const_constructors, sized_box_for_whitespace, use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:test_drive/const/colors.dart';
 import 'package:test_drive/data/firestore.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 
-import 'package:html_editor_enhanced/html_editor.dart';
+// import 'package:html_editor_enhanced/html_editor.dart';
 
 class Add_Note_Screen extends StatefulWidget {
   const Add_Note_Screen({super.key});
@@ -16,9 +19,11 @@ class Add_Note_Screen extends StatefulWidget {
 class _Add_Note_ScreenState extends State<Add_Note_Screen> {
   final title = TextEditingController();
   // final subtitle = TextEditingController();
-  final HtmlEditorController subtitle = HtmlEditorController();
+  // final HtmlEditorController subtitle = HtmlEditorController();
+  quill.QuillController subtitle = quill.QuillController.basic();
 
   final FocusNode _focusNode1 = FocusNode();
+  // final ScrollController _scrollController = ScrollController();
   // final FocusNode _focusNode2 = FocusNode();
 
   int indexx = 0;
@@ -53,8 +58,9 @@ class _Add_Note_ScreenState extends State<Add_Note_Screen> {
             minimumSize: Size(170, 48),
           ),
           onPressed: () async {
-            String htmlContent = await subtitle.getText();
-            Firestore_Datasource().AddNote(htmlContent, title.text, indexx);
+            String subtitleContent =
+                await jsonEncode(subtitle.document.toDelta());
+            Firestore_Datasource().AddNote(subtitleContent, title.text, indexx);
             Navigator.pop(context);
           },
           child: Text('add task'),
@@ -123,18 +129,45 @@ class _Add_Note_ScreenState extends State<Add_Note_Screen> {
           ),
           SizedBox(height: 8),
           Container(
+            height: 300,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
             ),
-            child: HtmlEditor(
-              controller: subtitle,
-              htmlEditorOptions: HtmlEditorOptions(
-                hint: "Enter subtitle",
-              ),
-              otherOptions: OtherOptions(
-                height: 200,
-              ),
+            child: Column(
+              children: [
+                quill.QuillToolbar.simple(
+                  configurations: quill.QuillSimpleToolbarConfigurations(
+                    controller: subtitle,
+                    sharedConfigurations: const quill.QuillSharedConfigurations(
+                      locale: Locale('de'),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: quill.QuillEditor.basic(
+                      configurations: quill.QuillEditorConfigurations(
+                        controller: subtitle,
+                        // readOnly: false, // Make the editor editable
+                        autoFocus: false,
+                        expands: false,
+                        // focusNode: FocusNode(),
+                        // scrollController: ScrollController(),
+                        padding: EdgeInsets.all(10),
+                        scrollable: true,
+                        showCursor: true,
+                        // readOnly: false,
+                        sharedConfigurations:
+                            const quill.QuillSharedConfigurations(
+                                // locale: Locale('de'),
+                                ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

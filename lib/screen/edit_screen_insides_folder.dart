@@ -1,11 +1,15 @@
 // ignore_for_file: camel_case_types, non_constant_identifier_names, annotate_overrides, prefer_const_constructors, sized_box_for_whitespace, duplicate_ignore, use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:test_drive/const/colors.dart';
 import 'package:test_drive/data/firestore.dart';
 import 'package:test_drive/model/notes_model.dart';
 
-import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
+
+// import 'package:html_editor_enhanced/html_editor.dart';
 
 class Edit_Screen_Insides_Folder extends StatefulWidget {
   final NoteInsideFolder note;
@@ -20,7 +24,8 @@ class _Edit_Screen_Insides_FolderState
     extends State<Edit_Screen_Insides_Folder> {
   TextEditingController? title;
   // TextEditingController? subtitle;
-  HtmlEditorController subtitleController = HtmlEditorController();
+  quill.QuillController subtitle = quill.QuillController.basic();
+  // HtmlEditorController subtitleController = HtmlEditorController();
 
   final FocusNode _focusNode1 = FocusNode();
   // final FocusNode _focusNode2 = FocusNode();
@@ -31,7 +36,11 @@ class _Edit_Screen_Insides_FolderState
     super.initState();
     title = TextEditingController(text: widget.note.title);
     // subtitle = TextEditingController(text: widget.note.subtitle);
-    subtitleController.setText(widget.note.subtitle);
+    // subtitleController.setText(widget.note.subtitle);
+    subtitle = quill.QuillController(
+      document: quill.Document.fromJson(jsonDecode(widget.note.subtitle)),
+      selection: TextSelection.collapsed(offset: 0),
+    );
   }
 
   Widget build(BuildContext context) {
@@ -64,9 +73,11 @@ class _Edit_Screen_Insides_FolderState
             minimumSize: Size(170, 48),
           ),
           onPressed: () async {
-            String subtitleHtml = await subtitleController.getText();
+            String subtitleContent =
+                jsonEncode(subtitle.document.toDelta().toJson());
+            // String subtitleHtml = await subtitleController.getText();
             Firestore_Datasource().Update_Note_Inside_Folder(
-                widget.note.id, indexx, title!.text, subtitleHtml);
+                widget.note.id, indexx, title!.text, subtitleContent);
             Navigator.pop(context);
           },
           child: Text('add task'),
@@ -123,21 +134,61 @@ class _Edit_Screen_Insides_FolderState
   Widget subtitle_widgets() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: HtmlEditor(
-          controller: subtitleController,
-          htmlEditorOptions: HtmlEditorOptions(
-            hint: "Enter your subtitle here...",
-            initialText: widget.note.subtitle,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Subtitle',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           ),
-          otherOptions: OtherOptions(
-            height: 200,
+          SizedBox(height: 8),
+          Container(
+            height: 300,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              children: [
+                quill.QuillToolbar.simple(
+                  configurations: quill.QuillSimpleToolbarConfigurations(
+                    controller: subtitle,
+                    sharedConfigurations: const quill.QuillSharedConfigurations(
+                      locale: Locale('de'),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: quill.QuillEditor.basic(
+                      configurations: quill.QuillEditorConfigurations(
+                        controller: subtitle,
+                        // readOnly: false, // Make the editor editable
+                        autoFocus: false,
+                        expands: false,
+                        // focusNode: FocusNode(),
+                        // scrollController: ScrollController(),
+                        padding: EdgeInsets.all(10),
+                        scrollable: true,
+                        showCursor: true,
+                        // readOnly: false,
+                        sharedConfigurations:
+                            const quill.QuillSharedConfigurations(
+                                // locale: Locale('de'),
+                                ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

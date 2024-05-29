@@ -68,7 +68,8 @@ class Firestore_Datasource {
           .delete();
       return true;
     } catch (e) {
-      return true;
+      print(e);
+      return false;
     }
   }
 
