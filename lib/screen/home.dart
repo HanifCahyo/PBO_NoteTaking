@@ -8,7 +8,6 @@ import 'package:test_drive/const/colors.dart';
 import 'package:test_drive/data/auth_data.dart';
 import 'package:test_drive/screen/add_folder.dart';
 import 'package:test_drive/screen/add_note_screen.dart';
-import 'package:test_drive/widgets/folder_notes.dart';
 import 'package:test_drive/widgets/stream_notes.dart';
 import 'package:test_drive/widgets/tree_view.dart';
 
@@ -21,9 +20,7 @@ class Home_Screen extends StatefulWidget {
 
 class _Home_ScreenState extends State<Home_Screen> {
   bool show = true;
-  Widget selectedContent = Stream_note(
-    false,
-  ); // Default content
+  Widget selectedContent = Stream_note(); // Default content
 
   @override
   Widget build(BuildContext context) {

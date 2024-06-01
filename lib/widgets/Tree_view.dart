@@ -23,33 +23,25 @@ class FolderTreeView extends StatelessWidget {
     return [
       TreeNode(
         content: GestureDetector(
-          onTap: () => onNodeSelected(Stream_note(
-            false,
-          )),
+          onTap: () => onNodeSelected(Stream_note()),
           child: Text('Folder 1'),
         ),
         children: [
           TreeNode(
             content: GestureDetector(
-              onTap: () => onNodeSelected(Stream_note(
-                false,
-              )),
+              onTap: () => onNodeSelected(Stream_note()),
               child: Text('Subfolder 1.1'),
             ),
           ),
           TreeNode(
             content: GestureDetector(
-              onTap: () => onNodeSelected(Stream_note(
-                false,
-              )),
+              onTap: () => onNodeSelected(Stream_note()),
               child: Text('Subfolder 1.2'),
             ),
             children: [
               TreeNode(
                 content: GestureDetector(
-                  onTap: () => onNodeSelected(Stream_note(
-                    false,
-                  )),
+                  onTap: () => onNodeSelected(Stream_note()),
                   child: Text('Subfolder 1.2.1'),
                 ),
               ),
@@ -59,25 +51,19 @@ class FolderTreeView extends StatelessWidget {
       ),
       TreeNode(
         content: GestureDetector(
-          onTap: () => onNodeSelected(Stream_note(
-            false,
-          )),
+          onTap: () => onNodeSelected(Stream_note()),
           child: Text('Folder 2'),
         ),
         children: [
           TreeNode(
             content: GestureDetector(
-              onTap: () => onNodeSelected(Stream_note(
-                false,
-              )),
+              onTap: () => onNodeSelected(Stream_note()),
               child: Text('Subfolder 2.1'),
             ),
           ),
           TreeNode(
             content: GestureDetector(
-              onTap: () => onNodeSelected(Stream_note(
-                false,
-              )),
+              onTap: () => onNodeSelected(Stream_note()),
               child: Text('Subfolder 2.2'),
             ),
           ),

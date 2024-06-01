@@ -6,13 +6,12 @@ import 'package:test_drive/data/firestore.dart';
 import 'package:test_drive/widgets/task_widgets.dart';
 
 class Stream_note extends StatelessWidget {
-  bool done;
-  Stream_note(this.done, {super.key});
+  Stream_note({super.key});
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: Firestore_Datasource().stream(done),
+        stream: Firestore_Datasource().stream(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // ignore: prefer_const_constructors

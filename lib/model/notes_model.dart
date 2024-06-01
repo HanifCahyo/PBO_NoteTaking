@@ -4,8 +4,7 @@ class Note {
   String title;
   String time;
   int image;
-  bool isDone;
-  Note(this.id, this.subtitle, this.time, this.image, this.title, this.isDone);
+  Note(this.id, this.subtitle, this.time, this.image, this.title);
 }
 
 class Folder {
@@ -21,7 +20,6 @@ class NoteInsideFolder {
   String title;
   String time;
   int image;
-  bool isDone;
-  NoteInsideFolder(this.id, this.folderId, this.subtitle, this.time, this.image,
-      this.title, this.isDone);
+  NoteInsideFolder(
+      this.id, this.folderId, this.subtitle, this.time, this.image, this.title);
 }

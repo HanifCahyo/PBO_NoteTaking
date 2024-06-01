@@ -7,13 +7,12 @@ import 'package:test_drive/widgets/task_widgets_insides_folder.dart';
 
 class Stream_note_insides_folder extends StatelessWidget {
   final String folderId;
-  bool done;
-  Stream_note_insides_folder(this.folderId, this.done, {super.key});
+  Stream_note_insides_folder(this.folderId, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: Firestore_Datasource().streamNotesInsideFolder(folderId, done),
+        stream: Firestore_Datasource().streamNotesInsideFolder(folderId),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // ignore: prefer_const_constructors

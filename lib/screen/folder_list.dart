@@ -71,7 +71,7 @@ class _Folder_Screen_ListState extends State<Folder_Screen_List> {
           child: ListView(
             padding: const EdgeInsets.all(10),
             children: [
-              Stream_note_insides_folder(widget.folderId, false),
+              Stream_note_insides_folder(widget.folderId),
               // folder_note(),
               Text(
                 'isDone',
@@ -81,7 +81,7 @@ class _Folder_Screen_ListState extends State<Folder_Screen_List> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Stream_note_insides_folder(widget.folderId, true),
+              Stream_note_insides_folder(widget.folderId),
             ],
           ),
         ),

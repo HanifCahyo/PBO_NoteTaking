@@ -19,7 +19,6 @@ class _Task_Widget_insides_folderState
     extends State<Task_Widget_insides_folder> {
   @override
   Widget build(BuildContext context) {
-    bool isDone = widget.note.isDone;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Container(
@@ -62,15 +61,6 @@ class _Task_Widget_insides_folderState
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Checkbox(
-                            value: isDone,
-                            onChanged: (value) {
-                              setState(() {
-                                isDone = !isDone;
-                              });
-                              Firestore_Datasource()
-                                  .isDoneInsideFolder(widget.note.id, isDone);
-                            })
                       ],
                     ),
                     // const SizedBox(height: 5),

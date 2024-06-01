@@ -12,13 +12,9 @@ class Firestore_Datasource {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<bool> createUser(
+  Future createUser(
       String email, String namaLengkap, String nomorHandphone) async {
     try {
-      print('Data yang akan disimpan di Firestore:');
-      print('Email: $email');
-      print('Nama Lengkap: $namaLengkap');
-      print('Nomor Handphone: $nomorHandphone');
       await _firestore.collection('users').doc(_auth.currentUser!.uid).set({
         'id': _auth.currentUser!.uid,
         'email': email,
@@ -33,7 +29,7 @@ class Firestore_Datasource {
   }
 
   // Add Note //
-  Future<bool> AddNote(String subtitle, String title, int image) async {
+  Future AddNote(String subtitle, String title, int image) async {
     try {
       var uuid = const Uuid().v4();
       DateTime data = DateTime.now();
@@ -45,7 +41,6 @@ class Firestore_Datasource {
           .set({
         'id': uuid,
         'subtitle': subtitle,
-        'isDone': false,
         'image': image,
         'title': title,
         'time': '${data.hour}:${data.minute}',
@@ -58,7 +53,7 @@ class Firestore_Datasource {
 
   // Delete Folder //
 
-  Future<bool> DeleteFolder(String uuid) async {
+  Future DeleteFolder(String uuid) async {
     try {
       await _firestore
           .collection('users')
@@ -85,7 +80,6 @@ class Firestore_Datasource {
           data['time'],
           data['image'],
           data['title'],
-          data['isDone'],
         );
       }).toList();
       return notesList;
@@ -97,12 +91,11 @@ class Firestore_Datasource {
 
   // Stream Notes //
 
-  Stream<QuerySnapshot> stream(bool isDone) {
+  Stream<QuerySnapshot> stream() {
     return _firestore
         .collection('users')
         .doc(_auth.currentUser!.uid)
         .collection('notes')
-        .where('isDone', isEqualTo: isDone)
         .snapshots();
   }
 
@@ -115,24 +108,7 @@ class Firestore_Datasource {
         .snapshots();
   }
 
-  Future<bool> isDone(String uuid, bool isDone) async {
-    try {
-      await _firestore
-          .collection('users')
-          .doc(_auth.currentUser!.uid)
-          .collection('notes')
-          .doc(uuid)
-          .update({
-        'isDone': isDone,
-      });
-      return true;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
-
-  Future<bool> Update_Note(
+  Future Update_Note(
       String uuid, int image, String title, String subtitle) async {
     try {
       DateTime data = DateTime.now();
@@ -154,7 +130,7 @@ class Firestore_Datasource {
     }
   }
 
-  Future<bool> Delete_Note(String uuid) async {
+  Future Delete_Note(String uuid) async {
     try {
       await _firestore
           .collection('users')
@@ -169,7 +145,7 @@ class Firestore_Datasource {
     }
   }
 
-  Future<bool> AddFolder(String folderName) async {
+  Future AddFolder(String folderName) async {
     try {
       var uuid = const Uuid().v4();
       await _firestore
@@ -200,7 +176,7 @@ class Firestore_Datasource {
     }
   }
 
-  Future<bool> AddNoteToFolder(
+  Future AddNoteToFolder(
       String folderId, String subtitle, String title, int image) async {
     try {
       var uuid = const Uuid().v4();
@@ -214,7 +190,6 @@ class Firestore_Datasource {
         'id': uuid,
         'folderIdNote': folderId,
         'subtitle': subtitle,
-        'isDone': false,
         'image': image,
         'title': title,
         'time': '${data.hour}:${data.minute}',
@@ -226,7 +201,7 @@ class Firestore_Datasource {
     }
   }
 
-  Future<bool> Delete_Note_Inside_Folder(String uuid) async {
+  Future Delete_Note_Inside_Folder(String uuid) async {
     try {
       await _firestore
           .collection('users')
@@ -241,7 +216,7 @@ class Firestore_Datasource {
     }
   }
 
-  Future<bool> Update_Note_Inside_Folder(
+  Future Update_Note_Inside_Folder(
       String uuid, int image, String title, String subtitle) async {
     try {
       DateTime data = DateTime.now();
@@ -263,36 +238,12 @@ class Firestore_Datasource {
     }
   }
 
-  Future<bool> isDoneInsideFolder(String uuid, bool isDone) async {
-    try {
-      await _firestore
-          .collection('users')
-          .doc(_auth.currentUser!.uid)
-          .collection('notesFolder')
-          .doc(uuid)
-          .update({
-        'isDone': isDone,
-      });
-      return true;
-    } catch (e) {
-      print(e);
-      return false;
-    }
-  }
-
   List getNotesInsideFolder(AsyncSnapshot snapshot) {
     try {
       final notesList2 = snapshot.data.docs.map((doc) {
         final data = doc.data() as Map<String, dynamic>;
-        return NoteInsideFolder(
-          data['id'],
-          data['folderIdNote'],
-          data['subtitle'],
-          data['time'],
-          data['image'],
-          data['title'],
-          data['isDone'],
-        );
+        return NoteInsideFolder(data['id'], data['folderIdNote'],
+            data['subtitle'], data['time'], data['image'], data['title']);
       }).toList();
       return notesList2;
     } catch (e) {
@@ -301,13 +252,12 @@ class Firestore_Datasource {
     }
   }
 
-  Stream<QuerySnapshot> streamNotesInsideFolder(String folderId, bool isDone) {
+  Stream<QuerySnapshot> streamNotesInsideFolder(String folderId) {
     return _firestore
         .collection('users')
         .doc(_auth.currentUser!.uid)
         .collection('notesFolder')
         .where('folderIdNote', isEqualTo: folderId)
-        .where('isDone', isEqualTo: isDone)
         .snapshots();
   }
 }
