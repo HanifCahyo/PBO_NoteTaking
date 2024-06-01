@@ -6,11 +6,11 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:test_drive/auth/main_page.dart';
 import 'package:test_drive/const/colors.dart';
 import 'package:test_drive/data/auth_data.dart';
-import 'package:test_drive/main.dart';
 import 'package:test_drive/screen/add_folder.dart';
 import 'package:test_drive/screen/add_note_screen.dart';
 import 'package:test_drive/widgets/folder_notes.dart';
 import 'package:test_drive/widgets/stream_notes.dart';
+import 'package:test_drive/widgets/tree_view.dart';
 
 class Home_Screen extends StatefulWidget {
   const Home_Screen({super.key});
@@ -21,6 +21,9 @@ class Home_Screen extends StatefulWidget {
 
 class _Home_ScreenState extends State<Home_Screen> {
   bool show = true;
+  Widget selectedContent = Stream_note(
+    false,
+  ); // Default content
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,7 @@ class _Home_ScreenState extends State<Home_Screen> {
             onPressed: () async {
               await AuthenticationRemote().logout();
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => MyApp()),
+                MaterialPageRoute(builder: (context) => Main_Page()),
               );
             },
           ),
@@ -83,20 +86,27 @@ class _Home_ScreenState extends State<Home_Screen> {
             }
             return true;
           },
-          child: ListView(
-            padding: const EdgeInsets.all(10),
+          child: Row(
             children: [
-              Stream_note(false),
-              folder_note(),
-              Text(
-                'isDone',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey.shade500,
-                  fontWeight: FontWeight.bold,
+              // Sidebar TreeView
+              Container(
+                width: 250,
+                color: Colors.grey.shade200,
+                child: FolderTreeView(
+                  onNodeSelected: (Widget content) {
+                    setState(() {
+                      selectedContent = content;
+                    });
+                  },
                 ),
               ),
-              Stream_note(true),
+              // Main Content
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: selectedContent,
+                ),
+              ),
             ],
           ),
         ),
