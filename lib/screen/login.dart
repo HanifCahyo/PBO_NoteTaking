@@ -19,6 +19,8 @@ class _LogIN_ScreenState extends State<LogIN_Screen> {
   final email = TextEditingController();
   final password = TextEditingController();
 
+  bool _obscurePassword = true;
+
   @override
   void initState() {
     super.initState();
@@ -44,7 +46,8 @@ class _LogIN_ScreenState extends State<LogIN_Screen> {
               const SizedBox(height: 50),
               textfield(email, _focusNode1, 'Email', Icons.email),
               const SizedBox(height: 10),
-              textfield(password, _focusNode2, 'Password', Icons.password),
+              textfield(password, _focusNode2, 'Password', Icons.password,
+                  obscureText: _obscurePassword),
               const SizedBox(height: 8),
               account(),
               const SizedBox(height: 20),
@@ -111,7 +114,8 @@ class _LogIN_ScreenState extends State<LogIN_Screen> {
   }
 
   Widget textfield(TextEditingController _controller, FocusNode _focusNode,
-      String typeName, IconData iconss) {
+      String typeName, IconData iconss,
+      {bool obscureText = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Container(
@@ -122,6 +126,7 @@ class _LogIN_ScreenState extends State<LogIN_Screen> {
         child: TextField(
           controller: _controller,
           focusNode: _focusNode,
+          obscureText: obscureText,
           style: const TextStyle(fontSize: 18, color: Colors.black),
           decoration: InputDecoration(
               prefixIcon: Icon(

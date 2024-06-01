@@ -71,15 +71,6 @@ class _Task_WidgetState extends State<Task_Widget> {
                             })
                       ],
                     ),
-                    // const SizedBox(height: 5),
-                    // Text(
-                    //   widget._note.subtitle,
-                    //   style: TextStyle(
-                    //       fontSize: 18,
-                    //       fontWeight: FontWeight.w400,
-                    //       color: Colors.grey.shade400),
-                    // ),
-                    // ignore: prefer_const_constructors
                     Spacer(),
                     edit_time()
                   ],

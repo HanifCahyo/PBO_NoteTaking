@@ -3,7 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:test_drive/auth/main_page.dart';
 import 'package:test_drive/const/colors.dart';
+import 'package:test_drive/data/auth_data.dart';
+import 'package:test_drive/main.dart';
 import 'package:test_drive/screen/add_folder.dart';
 import 'package:test_drive/screen/add_note_screen.dart';
 import 'package:test_drive/widgets/folder_notes.dart';
@@ -23,6 +26,20 @@ class _Home_ScreenState extends State<Home_Screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColors,
+      appBar: AppBar(
+        title: Text('Home Screen'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () async {
+              await AuthenticationRemote().logout();
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => MyApp()),
+              );
+            },
+          ),
+        ],
+      ),
       floatingActionButton: Visibility(
         visible: show,
         child: SpeedDial(

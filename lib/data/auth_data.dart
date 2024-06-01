@@ -23,11 +23,6 @@ class AuthenticationRemote extends AuthenticationDatasource {
           .createUserWithEmailAndPassword(
               email: email.trim(), password: password.trim());
       // Print nilai variabel sebelum memanggil createUser
-      print('Data yang dikirim:');
-      print('Email: $email');
-      print('Password: $password');
-      print('Nama Lengkap: $namaLengkap');
-      print('Nomor Handphone: $nomorHandphone');
       // Ensure that createUser is awaited
       bool userCreated = await _firestoreDatasource.createUser(
         email,
@@ -50,5 +45,9 @@ class AuthenticationRemote extends AuthenticationDatasource {
 
     // Explicitly return a Future<void>
     return;
+  }
+
+  Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
   }
 }
