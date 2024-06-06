@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:test_drive/data/firestore.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:test_drive/auth/main_page.dart';
@@ -8,6 +9,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Ensure root folder exists
+  await Firestore_Datasource().ensureRootFolderExists();
   runApp(const MyApp());
 }
 

@@ -1,14 +1,11 @@
-// ignore_for_file: prefer_const_constructors, camel_case_types
+// ignore_for_file: prefer_const_constructors, camel_case_types, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:test_drive/auth/main_page.dart';
 import 'package:test_drive/const/colors.dart';
 import 'package:test_drive/data/auth_data.dart';
-import 'package:test_drive/screen/add_folder.dart';
-import 'package:test_drive/screen/add_note_screen.dart';
-import 'package:test_drive/widgets/stream_notes.dart';
+import 'package:test_drive/screen/hello_world.dart';
 import 'package:test_drive/widgets/tree_view.dart';
 
 class Home_Screen extends StatefulWidget {
@@ -20,7 +17,7 @@ class Home_Screen extends StatefulWidget {
 
 class _Home_ScreenState extends State<Home_Screen> {
   bool show = true;
-  Widget selectedContent = Stream_note(); // Default content
+  Widget selectedContent = HelloWorld(); // Default content
 
   @override
   Widget build(BuildContext context) {
@@ -39,34 +36,6 @@ class _Home_ScreenState extends State<Home_Screen> {
             },
           ),
         ],
-      ),
-      floatingActionButton: Visibility(
-        visible: show,
-        child: SpeedDial(
-          icon: Icons.add,
-          activeIcon: Icons.close,
-          backgroundColor: custom_green,
-          children: [
-            SpeedDialChild(
-              child: Icon(Icons.create_new_folder),
-              label: 'Add Folder',
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => Add_Folder_Screen()),
-                );
-              },
-            ),
-            SpeedDialChild(
-              child: Icon(Icons.note_add),
-              label: 'Add Note',
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => Add_Note_Screen()),
-                );
-              },
-            ),
-          ],
-        ),
       ),
       body: SafeArea(
         child: NotificationListener<UserScrollNotification>(
@@ -87,8 +56,9 @@ class _Home_ScreenState extends State<Home_Screen> {
             children: [
               // Sidebar TreeView
               Container(
-                width: 250,
+                width: 300, // Set a fixed width for the sidebar
                 color: Colors.grey.shade200,
+
                 child: FolderTreeView(
                   onNodeSelected: (Widget content) {
                     setState(() {

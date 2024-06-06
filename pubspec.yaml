@@ -44,6 +44,7 @@ dependencies:
   flutter_quill: ^9.3.21
   flutter_simple_treeview: ^3.0.2
   rxdart: ^0.27.0
+  async: ^2.8.2
 
 dev_dependencies:
   flutter_test:
